@@ -1,34 +1,20 @@
 import MeetupList from '../components/meetups/MeetupList';
 import { useState, useEffect } from 'react';
-import { firebaseURL } from '../firebaseURL';
+import { fetchData } from './fetchMeetups';
+import { useFetchData } from './fetchMeetups';
+
 
 const AllMeetups = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadedMeetups, setLoadedMeetups] = useState([]);
+  const {isLoading, data } = useFetchData(fetchData);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      const response = await fetch(`${firebaseURL}meetups.json`);
-      const responseData = await response.json();
-
-      const loadedMeetups = [];
-      for (const key in responseData) {
-        loadedMeetups.push({
-          ...responseData[key],
-          id: key,
-        });
-      }
-      setLoadedMeetups(loadedMeetups);
-      setIsLoading(false);
-    };
-    fetchData();
-  }, []);
+  if (isLoading) {
+    return <div>... loading ...</div>;
+  }
 
   return (
     <section>
       <h1>All Meetups</h1>
-      {isLoading ? <p>Loading...</p> : <MeetupList meetups={loadedMeetups} />}
+      <MeetupList meetups={data} />
     </section>
   );
 };
