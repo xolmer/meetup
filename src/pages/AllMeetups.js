@@ -1,7 +1,7 @@
 import MeetupList from '../components/meetups/MeetupList';
 import { useState, useEffect } from 'react';
 import { firebaseURL } from '../firebaseURL';
-// import { DUMMY_DATA } from '../components/DUMMY_DATA';
+
 const AllMeetups = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loadedMeetups, setLoadedMeetups] = useState([]);
