@@ -3,11 +3,10 @@ import { useState, useEffect } from 'react';
 import { fetchData } from './fetchMeetups';
 import { useFetchData } from '../hooks.js';
 
-
 const AllMeetups = () => {
-  const {isLoading, data } = useFetchData(fetchData);
+  const { isLoading, data } = useFetchData(fetchData);
 
-  if (isLoading) {
+  if (isLoading || !data) {
     return <div>... loading ...</div>;
   }
 
