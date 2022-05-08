@@ -7,36 +7,28 @@ const AllMeetups = () => {
   const [loadedMeetups, setLoadedMeetups] = useState([]);
 
   useEffect(() => {
-    setIsLoading(true);
-    fetch(`${firebaseURL}meetups.json`)
-      .then((response) => response.json())
-      .then((data) => {
-        const meetups = [];
-        for (const key in data) {
-          const meetup = {
-            ...data[key],
-            id: key,
-          };
-          meetups.push(meetup);
-        }
-        setIsLoading(false);
-        setLoadedMeetups(meetups);
-      });
-  }, []);
+    const fetchData = async () => {
+      setIsLoading(true);
+      const response = await fetch(`${firebaseURL}meetups.json`);
+      const responseData = await response.json();
 
-  if (isLoading) {
-    return (
-      <section>
-        <p>Loading...</p>
-      </section>
-    );
-  }
+      const loadedMeetups = [];
+      for (const key in responseData) {
+        loadedMeetups.push({
+          ...responseData[key],
+          id: key,
+        });
+      }
+      setLoadedMeetups(loadedMeetups);
+      setIsLoading(false);
+    };
+    fetchData();
+  }, []);
   return (
     <section>
       <h1>All Meetups</h1>
-      <MeetupList meetups={loadedMeetups} />
+      {isLoading ? <p>Loading...</p> : <MeetupList meetups={loadedMeetups} />}
     </section>
   );
 };
-
 export default AllMeetups;
