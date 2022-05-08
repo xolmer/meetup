@@ -1,7 +1,7 @@
 import MeetupList from '../components/meetups/MeetupList';
 import { useState, useEffect } from 'react';
 import { fetchData } from './fetchMeetups';
-import { useFetchData } from './fetchMeetups';
+import { useFetchData } from '../hooks.js';
 
 
 const AllMeetups = () => {
